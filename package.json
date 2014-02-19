@@ -1,0 +1,31 @@
+{
+  "main": "index.js",
+  "name": "untv-remote",
+  "description": "web-based remote client for untv",
+  "version": "0.5.0",
+  "author": "Gordon Hall <gordon@gordonwritescode.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/untv/untv-remote.git"
+  },
+  "scripts": {
+    "start": "node test.js"
+  },
+  "license": "GPL",
+  "engines": {
+    "node": ">=0.8"
+  },
+  "keywords": [
+    "untv",
+    "drm-free",
+    "media",
+    "player",
+    "tv"
+  ],
+  "dependencies": {
+    "coffee-script": "~1.6.3",
+    "socket.io": "~0.9.16",
+    "jade": "~0.35.0",
+    "express": "~3.4.7"
+  }
+}
