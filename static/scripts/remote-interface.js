@@ -47,6 +47,24 @@ $(document).ready(function() {
     clearInterval(scroll_interval);
   });
 
+  // set orientation
+  $(window).trigger("resize");
+
+});
+
+/*
+Check Orientation
+*/
+$(window).bind("resize orientationchange", function() {
+  var body = $("body");
+  var win  = $(window);
+
+  if (win.height() > win.width()) {
+    body.removeClass("landscape");
+  }
+  else {
+    if (!body.hasClass("landscape")) $("body").addClass("landscape");
+  }
 });
 
 /*
