@@ -21,28 +21,30 @@ $(document).ready(function() {
   var options         = $("#options");
   var scroll_interval = null
 
-  $("button").bind("touchstart", function(event) {
+  $("button").bind("touchstart, mousedown", function(event) {
     var button = $(this);
     var action = button.data("action");
     
     socket.emit(action);
     
     scroll_interval = setInterval(function() {
-      socket.emit(action);
+      var active_buttons = $(".active").length;
+      if (active_buttons) {
+        socket.emit(action);
+      }
+      else {
+        clearInterval(scroll_interval);
+      }
     }, 800);
 
     button.addClass("active");
+  });
 
-  $("button").bind("touchend", function(event) {
+  $("button").bind("touchend, mouseup", function(event) {
     var button = $(this);
     button.removeClass("active");
     button.blur();
     clearInterval(scroll_interval);
-  });
-
-  $("[type='range']", controls).change(function(event) {
-    var value = this.value
-    socket.emit("player:seek", { value: value });
   });
 
 });
@@ -51,16 +53,19 @@ $(document).ready(function() {
 Setup Events from TV
 */
 socket.on("prompt:ask", function(data) {
-  var input = window.prompt(data.message)
-  socket.emit("prompt:answer", { value: input })
+  var input = window.prompt(data.message);
+  $(".active").removeClass("active");
+  socket.emit("prompt:answer", { value: input });
 });
 
 socket.on("confirm:ask", function(data) {
   var confirmation = window.confirm(data.message);
+  $(".active").removeClass("active");
   socket.emit("confirm:answer", { value: confirmation });
 });
 
 socket.on("alert:show", function(data) {
   window.alert(data.message);
+  $(".active").removeClass("active");
   socket.emit("alert:dismissed");
 });
